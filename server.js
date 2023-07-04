@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const express = require('express');
-const app = require('./app');
 const configurationManager = require('./common/configurationManager.js');
 const logger = require('./common/logger');
 const tourRouter = require('./routes/tourRoutes');
@@ -9,7 +8,6 @@ const userRouter = require('./routes/userRoutes');
 const server = express();
 
 exports.buildServer = () => {
-  console.log('hi');
   connectToDB();
   registerPreRoutesMiddleWare();
   buildRoutes();
@@ -18,9 +16,7 @@ exports.buildServer = () => {
 };
 
 function connectToDB() {
-  console.log('hi');
   const connectionstring = configurationManager.getDBConnectionString();
-  console.log(connectionstring);
   mongoose.connect(connectionstring).then(() => {
     logger.info('connection successful!');
   });
@@ -34,8 +30,8 @@ function registerPreRoutesMiddleWare() {
 }
 
 function buildRoutes() {
-  app.use('/api/v1/tours', tourRouter);
-  app.use('/api/v1/users', userRouter);
+  server.use('/api/v1/tours', tourRouter);
+  server.use('/api/v1/users', userRouter);
 }
 
 function registerPostRoutesMiddleWare() {}
